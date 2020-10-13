@@ -1,5 +1,10 @@
+function function2() {
+  // all the stuff you want to happen after that pause
+  console.log('Blah blah blah blah extra-blah');
+}
+
 const puppeteer = require('puppeteer');
-const password = require('./config').password;
+const password = "pass@123";
 (async () => {
   try {
     const browser = await puppeteer.launch({
@@ -9,10 +14,12 @@ const password = require('./config').password;
     const page = await browser.newPage();
     await page.setDefaultNavigationTimeout(1000000);
     await page.setViewport({ width: 1000, height: 600 });
-    await page.goto('https://www.facebook.com');
+    await page.goto('localhost:5000');
+    await page.click(`a`); // this is because facebook leaves some black overlay if you log in with my chromium; it may not be the same for yours
     await page.waitForSelector('#email');
-    await page.type('#email', 'oosuide@yahoo.com');
+    await page.$eval('#email', el => el.value = 'vmnckdkyct_1598464228@tfbnw.net');
     await page.type('#pass', password);
+    setTimeout(function2, 9000);
     await page.click(`[type="submit"]`);
     await page.waitForNavigation();
     await page.click(`div`); // this is because facebook leaves some black overlay if you log in with my chromium; it may not be the same for yours
